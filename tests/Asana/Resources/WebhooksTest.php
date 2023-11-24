@@ -2,11 +2,9 @@
 
 namespace Asana;
 
-use Asana\Test\AsanaTest;
-
 class WebhooksTest extends Test\AsanaTest
 {
-    public $data = array(
+    private $data = array(
       'id' => 222,
       'resource' => array(
         'id' => 111,
