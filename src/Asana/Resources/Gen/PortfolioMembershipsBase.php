@@ -3,6 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class PortfolioMembershipsBase {
+    protected $client;
 
     /**
      * @param Asana/Client client  The client instance

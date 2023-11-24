@@ -2,14 +2,23 @@
 
 namespace Asana\Iterator;
 
-class ItemIterator implements \Iterator
+use ArrayIterator;
+use Iterator;
+use ReturnTypeWillChange;
+
+class ItemIterator implements Iterator
 {
+    private $item;
+    private $items;
+    private $itemIndex;
+    private $pages;
+
     public function __construct($pages)
     {
         $this->pages = $pages;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->pages->rewind();
@@ -21,7 +30,7 @@ class ItemIterator implements \Iterator
         $this->next();
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         // if we don't have an items iterator try to get the next one
@@ -33,7 +42,7 @@ class ItemIterator implements \Iterator
             }
             $array = $this->pages->current();
             if ($array) {
-                $this->items = new \ArrayIterator($array);
+                $this->items = new ArrayIterator($array);
                 $this->items->rewind();
             }
             // advance the page iterator
@@ -48,19 +57,19 @@ class ItemIterator implements \Iterator
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->items != null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->item;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->itemIndex;

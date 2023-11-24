@@ -3,6 +3,7 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\CustomFieldSettingsBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class CustomFieldSettings extends CustomFieldSettingsBase
 {

@@ -2,16 +2,13 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\ForbiddenError;
-use Asana\Errors\InvalidRequestError;
-use Asana\Errors\InvalidTokenError;
-use Asana\Errors\NoAuthorizationError;
-use Asana\Errors\NotFoundError;
-use Asana\Errors\RateLimitEnforcedError;
-use Asana\Errors\ServerError;
+use Exception;
 
-class AsanaError extends \Exception
+class AsanaError extends Exception
 {
+    private $response;
+    private $status;
+
     public function __construct($message, $status, $response)
     {
         $this->message = $message;

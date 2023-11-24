@@ -2,8 +2,10 @@
 
 namespace Asana\Dispatcher;
 
-use \Httpful;
-use \Httpful\Mime;
+use Asana\Dispatcher\Handlers\JsonHandler;
+use Httpful\Httpful;
+use Httpful\Mime;
+use Httpful\Request;
 
 class Dispatcher
 {
@@ -16,9 +18,9 @@ class Dispatcher
         // Note that Httpful's JsonHandler does not support that option which
         // is why we have to register our own JSON handler.
         if (PHP_INT_SIZE < 8) {
-            \Httpful\Httpful::register(
-                \Httpful\Mime::JSON,
-                new \Asana\Dispatcher\Handlers\JsonHandler(array('parse_options' => JSON_BIGINT_AS_STRING))
+            Httpful::register(
+                Mime::JSON,
+                new JsonHandler(array('parse_options' => JSON_BIGINT_AS_STRING))
             );
         }
     }
@@ -78,7 +80,7 @@ class Dispatcher
                     }
                 }
             }
-            $request->body($body)->sendsType(\Httpful\Mime::UPLOAD);
+            $request->body($body)->sendsType(Mime::UPLOAD);
         }
 
         $this->authenticate($request);
@@ -100,7 +102,7 @@ class Dispatcher
 
     protected function createRequest()
     {
-        return \Httpful\Request::init();
+        return Request::init();
     }
 
     protected function authenticate($request)

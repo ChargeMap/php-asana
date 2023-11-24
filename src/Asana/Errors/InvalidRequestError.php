@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\AsanaError;
-
 class InvalidRequestError extends AsanaError
 {
     const MESSAGE = 'Invalid Request';

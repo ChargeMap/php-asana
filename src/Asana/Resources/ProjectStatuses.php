@@ -3,9 +3,12 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\ProjectStatusesBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectStatuses extends ProjectStatusesBase
 {
+    private $client;
+
     public function create($project, $params = array(), $options = array())
     {
         return $this->createInProject($project, $params, $options);

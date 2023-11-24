@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\AsanaError;
-
 class PremiumOnlyError extends AsanaError
 {
     const MESSAGE = 'Payment Required';

@@ -2,11 +2,14 @@
 
 namespace Asana\Test;
 
-use Asana\Test\MockRequest;
+use Asana\Dispatcher\Dispatcher;
 use Httpful\Response;
 
-class MockDispatcher extends \Asana\Dispatcher\Dispatcher
+class MockDispatcher extends Dispatcher
 {
+    private $calls;
+    private $responses;
+
     public function __construct()
     {
         $this->responses = array();
@@ -34,15 +37,15 @@ class MockDispatcher extends \Asana\Dispatcher\Dispatcher
         $headers = $res[1];
         $body = $res[2];
 
-        $head = "HTTP/1.1 {$status} OK\r\n";
+        $head = "HTTP/1.1 $status OK\r\n";
         if ($headers) {
             foreach ($headers as $key => $value) {
-                $head .= "{$key}: {$value}\r\n";
+                $head .= "$key: $value\r\n";
             }
         }
         $head .= "Content-Type: application/json\r\n\r\n";
 
-        $response = new \Httpful\Response($body, $head, $request);
+        $response = new Response($body, $head, $request);
         $this->calls[] = array('request' => $request, 'response' => $response);
         return $response;
     }

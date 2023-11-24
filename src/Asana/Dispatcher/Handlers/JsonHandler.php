@@ -8,6 +8,7 @@
 
 namespace Asana\Dispatcher\Handlers;
 
+use Exception;
 use Httpful\Handlers\MimeHandlerAdapter;
 
 class JsonHandler extends MimeHandlerAdapter
@@ -35,7 +36,7 @@ class JsonHandler extends MimeHandlerAdapter
         }
         $parsed = json_decode($body, $this->decode_as_array, $this->depth, $this->parse_options);
         if (is_null($parsed) && 'null' !== strtolower($body)) {
-            throw new \Exception("Unable to parse response as JSON");
+            throw new Exception("Unable to parse response as JSON");
         }
         return $parsed;
     }

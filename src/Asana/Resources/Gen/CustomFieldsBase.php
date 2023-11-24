@@ -3,6 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class CustomFieldsBase {
+    protected $client;
 
     /**
      * @param Asana/Client client  The client instance

@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\RetryableAsanaError;
-
 class ServerError extends RetryableAsanaError
 {
     const MESSAGE = 'Server Error';

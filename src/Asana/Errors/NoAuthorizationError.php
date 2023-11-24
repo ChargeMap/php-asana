@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\AsanaError;
-
 class NoAuthorizationError extends AsanaError
 {
     const MESSAGE = 'No Authorization';

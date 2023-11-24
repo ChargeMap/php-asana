@@ -3,6 +3,7 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\TasksBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class Tasks extends TasksBase
 {

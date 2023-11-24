@@ -3,9 +3,9 @@
 namespace Asana\Test {
 
     use Asana\Client;
-    use Asana\Test\MockDispatcher;
+    use PHPUnit\Framework\TestCase;
 
-    class AsanaTest extends \PHPUnit\Framework\TestCase
+    class AsanaTest extends TestCase
     {
         protected $client;
 

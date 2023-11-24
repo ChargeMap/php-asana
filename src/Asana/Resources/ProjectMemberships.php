@@ -3,9 +3,12 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\ProjectMembershipsBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectMemberships extends ProjectMembershipsBase
 {
+    private $client;
+
     /**
      * @param Asana/Client client  The client instance
      */

@@ -2,12 +2,11 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\RetryableAsanaError;
-
 class RateLimitEnforcedError extends RetryableAsanaError
 {
     const MESSAGE = 'Rate Limit Enforced';
     const STATUS = 429;
+    public $retryAfter;
 
     public function __construct($response)
     {

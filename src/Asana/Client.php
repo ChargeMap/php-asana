@@ -2,19 +2,10 @@
 
 namespace Asana;
 
-use Asana\Dispatcher\BasicAuthDispatcher;
-use Asana\Dispatcher\OAuthDispatcher;
-
-use Asana\Errors\AsanaError;
 use Asana\Errors\RetryableAsanaError;
-use Asana\Errors\RateLimitEnforcedError;
 
 use Asana\Iterator\CollectionPageIterator;
-use Asana\Resources\Events;
-use Asana\Resources\Portfolios;
-use Asana\Resources\ProjectMemberships;
-use Asana\Resources\Projects;
-use Asana\Resources\Users;
+use Exception;
 
 class Client
 {
@@ -37,6 +28,40 @@ class Client
     private static $API_OPTIONS     = array('pretty', 'fields', 'expand');
     private static $CLIENT_OPTIONS  = null;
     private static $ALL_OPTIONS     = null;
+    private $workspaces;
+    private $workspacememberships;
+    private $webhooks;
+    private $usertasklists;
+    private $users;
+    private $typeahead;
+    private $timeperiods;
+    private $teams;
+    private $teammemberships;
+    private $tasks;
+    private $tags;
+    private $statusupdates;
+    private $sections;
+    private $stories;
+    private $projecttemplates;
+    private $projectstatuses;
+    private $projectmemberships;
+    private $projects;
+    private $portfoliomemberships;
+    private $projectbriefs;
+    private $portfolios;
+    private $organizationexports;
+    private $memberships;
+    private $jobs;
+    private $goals;
+    private $goalrelationships;
+    private $events;
+    private $customfieldsettings;
+    private $customfields;
+    private $batchapi;
+    private $auditlogapi;
+    private $attachments;
+    public $options;
+    private $dispatcher;
 
     public function __construct($dispatcher, $options = array())
     {
@@ -146,24 +171,24 @@ class Client
                 $lowerReqHeader = strtolower($reqHeader);
                 if ($lowerReqHeader == "asana-enable" || $lowerReqHeader == "asana-disable") {
 
-                    $flagsAccountedFor = array_merge($flagsAccountedFor, preg_split("/,/", $reqHeaderValue));
+                    $flagsAccountedFor = array_merge($flagsAccountedFor, explode(",", $reqHeaderValue));
                 }
             }
 
-            $changesArray = preg_split("/,/", $resHeaders[$changeHeaderKey]);
+            $changesArray = explode(",", $resHeaders[$changeHeaderKey]);
             if ($changesArray == null) {
                 return;
             }
 
             foreach ($changesArray as $change) {
-                $changeParams = preg_split("/;/", $change);
+                $changeParams = explode(";", $change);
 
                 $name = "";
                 $info = "";
                 $affected = "";
 
-                foreach ((array) $changeParams as $changeParam) {
-                    $paramKeyValue = preg_split("/=/", $changeParam);
+                foreach ($changeParams as $changeParam) {
+                    $paramKeyValue = explode("=", $changeParam);
 
                     $paramKeyValue[0] = trim($paramKeyValue[0]);
                     $paramKeyValue[1] = trim($paramKeyValue[1]);
@@ -201,7 +226,7 @@ class Client
         if ($e instanceof Errors\RateLimitEnforcedError) {
             sleep($e->retryAfter);
         } else {
-            sleep($time = self::RETRY_DELAY * pow(self::RETRY_BACKOFF, $retryCount));
+            sleep(self::RETRY_DELAY * pow(self::RETRY_BACKOFF, $retryCount));
         }
     }
 
@@ -224,9 +249,8 @@ class Client
             $pageIterator = new CollectionPageIterator($this, $path, $query, $options);
             return $pageIterator->items();
         } elseif ($options['iterator_type'] == 'pages') {
-            $pageIterator = new CollectionPageIterator($this, $path, $query, $options);
-            return $pageIterator;
-        } elseif ($options['iterator_type'] == false) {
+            return new CollectionPageIterator($this, $path, $query, $options);
+        } elseif (!$options['iterator_type']) {
             if (!isset($options['limit'])) {
                 $options['limit'] = $options['page_size'];
             }
@@ -235,7 +259,7 @@ class Client
             }
             return $this->get($path, $query, $options);
         }
-        throw Exception('Unknown value for "iterator_type" option: ' . (string)$options['iterator_type']);
+        throw new Exception('Unknown value for "iterator_type" option: ' . $options['iterator_type']);
     }
 
     public function post($path, $data, $options = array())
@@ -304,9 +328,9 @@ class Client
             foreach ($apiOptions as $key => $value) {
                 // Transform list/tuples into comma separated list
                 if (is_array($value)) {
-                    $queryApiOptions["opt_{$key}"] = implode(',', $value);
+                    $queryApiOptions["opt_$key"] = implode(',', $value);
                 } else {
-                    $queryApiOptions["opt_{$key}"] = $value;
+                    $queryApiOptions["opt_$key"] = $value;
                 }
             }
             return $queryApiOptions;
@@ -344,7 +368,7 @@ class Client
             // TODO: optimize?
             $inKeys = !is_bool(array_search($key, $keys));
             if (($invert && !$inKeys) or (!$invert && $inKeys)) {
-                $result[$key] = $options[$key];
+                $result[$key] = $value;
             }
         }
         return $result;
@@ -363,7 +387,7 @@ class Client
         }
     }
 
-    private static function array_merge_recursive_distinct(array &$array1, array &$array2)
+    private static function array_merge_recursive_distinct(array $array1, array &$array2)
     {
         $merged = $array1;
         foreach ($array2 as $key => &$value)

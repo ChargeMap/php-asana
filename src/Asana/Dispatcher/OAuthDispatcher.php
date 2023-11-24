@@ -2,6 +2,7 @@
 
 namespace Asana\Dispatcher;
 
+use Exception;
 use OAuth2;
 
 class OAuthDispatcher extends Dispatcher
@@ -12,17 +13,25 @@ class OAuthDispatcher extends Dispatcher
     public static $TOKEN_ENDPOINT = 'https://app.asana.com/-/oauth_token';
 
     private $expirationTimeSeconds = null;
+    private $expiresIn;
+    private $oauthClient;
+    private $refreshToken;
+    private $redirectUri;
+    private $authorized;
+    private $accessToken;
+    private $clientSecret;
+    private $clientId;
 
     public function __construct($options)
     {
         parent::__construct();
 
         $this->clientId = $options['client_id'];
-        $this->clientSecret = isset($options['client_secret']) ? $options['client_secret'] : null;
-        $this->accessToken = isset($options['token']) ? $options['token'] : null;
+        $this->clientSecret = $options['client_secret'] ?? null;
+        $this->accessToken = $options['token'] ?? null;
         $this->authorized = !!$this->accessToken;
-        $this->redirectUri = isset($options['redirect_uri']) ? $options['redirect_uri'] : null;
-        $this->refreshToken = isset($options['refresh_token']) ? $options['refresh_token'] : null;
+        $this->redirectUri = $options['redirect_uri'] ?? null;
+        $this->refreshToken = $options['refresh_token'] ?? null;
 
         $this->oauthClient = new OAuth2\Client($this->clientId, $this->clientSecret);
     }
@@ -53,7 +62,7 @@ class OAuthDispatcher extends Dispatcher
     public function refreshAccessToken()
     {
         if ($this->refreshToken == null) {
-            throw new \Exception("OAuthDispatcher: cannot refresh access token without a refresh token.");
+            throw new Exception("OAuthDispatcher: cannot refresh access token without a refresh token.");
         } else {
             $params = array('refresh_token' => $this->refreshToken, 'redirect_uri' => $this->redirectUri);
             $result = $this->oauthClient->getAccessToken(OAuthDispatcher::$TOKEN_ENDPOINT, 'refresh_token', $params);
@@ -85,7 +94,7 @@ class OAuthDispatcher extends Dispatcher
         }
 
         if ($this->accessToken == null) {
-            throw new \Exception("OAuthDispatcher: access token not set");
+            throw new Exception("OAuthDispatcher: access token not set");
         }
         return $request->addHeader("Authorization", "Bearer " . $this->accessToken);
     }

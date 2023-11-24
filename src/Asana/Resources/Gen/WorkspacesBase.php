@@ -3,6 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class WorkspacesBase {
+    protected $client;
 
     /**
      * @param Asana/Client client  The client instance

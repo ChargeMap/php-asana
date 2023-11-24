@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\AsanaError;
-
 class ForbiddenError extends AsanaError
 {
     const MESSAGE = 'Forbidden';

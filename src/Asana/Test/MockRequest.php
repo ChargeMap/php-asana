@@ -2,15 +2,16 @@
 
 namespace Asana\Test;
 
-use Httpful;
+use Httpful\Bootstrap;
 use Httpful\Request;
-use Httpful\Response;
 
-class MockRequest extends \Httpful\Request
+class MockRequest extends Request
 {
+    private $dispatcher;
+
     public function __construct($dispatcher)
     {
-        \Httpful\Bootstrap::init();
+        Bootstrap::init();
         $this->dispatcher = $dispatcher;
     }
     public function send()

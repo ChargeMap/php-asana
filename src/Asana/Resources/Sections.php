@@ -3,6 +3,7 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\SectionsBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class Sections extends SectionsBase
 {

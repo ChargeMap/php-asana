@@ -2,10 +2,22 @@
 
 namespace Asana\Iterator;
 
-use Asana\Iterator\ItemIterator;
+use Iterator;
+use ReturnTypeWillChange;
 
-abstract class PageIterator implements \Iterator
+abstract class PageIterator implements Iterator
 {
+    private $currentPageNumber;
+    private $currentPage;
+    public $continuation;
+    private $count;
+    private $pageSize;
+    private $itemLimit;
+    private $options;
+    protected $query;
+    protected $path;
+    protected $client;
+
     abstract protected function getInitial();
     abstract protected function getNext();
     abstract protected function getContinuation($result);
@@ -17,7 +29,7 @@ abstract class PageIterator implements \Iterator
         $this->query = $query;
         $this->options = array_merge($client->options, $options, array('full_payload' => true));
 
-        $this->itemLimit = isset($this->options['item_limit']) ? $this->options['item_limit'] : null;
+        $this->itemLimit = $this->options['item_limit'] ?? null;
         if ($this->itemLimit == null) {
             $this->itemLimit = INF;
         }
@@ -31,7 +43,7 @@ abstract class PageIterator implements \Iterator
         $this->currentPageNumber = 0;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         # Compute the limit from the page size, and remaining item limit
@@ -41,7 +53,7 @@ abstract class PageIterator implements \Iterator
         } else {
             $result = $this->getInitial();
             $this->continuation = $this->getContinuation($result);
-            $data = isset($result->data) ? $result->data : null;
+            $data = $result->data ?? null;
             if ($data != null) {
                 $this->count += count($data);
             }
@@ -49,7 +61,7 @@ abstract class PageIterator implements \Iterator
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->currentPageNumber++;
@@ -60,7 +72,7 @@ abstract class PageIterator implements \Iterator
         } else {
             $result = $this->getNext();
             $this->continuation = $this->getContinuation($result);
-            $data = isset($result->data) ? $result->data : null;
+            $data = $result->data ?? null;
             if ($data != null) {
                 $this->count += count($data);
             }
@@ -68,25 +80,25 @@ abstract class PageIterator implements \Iterator
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->currentPage !== null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->currentPage;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->currentPageNumber;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function items()
     {
         return new ItemIterator($this);

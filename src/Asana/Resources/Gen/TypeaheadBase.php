@@ -3,6 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class TypeaheadBase {
+    private $client;
 
     /**
      * @param Asana/Client client  The client instance

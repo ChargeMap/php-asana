@@ -2,8 +2,6 @@
 
 namespace Asana\Errors;
 
-use Asana\Errors\AsanaError;
-
 class NotFoundError extends AsanaError
 {
     const MESSAGE = 'Not Found';

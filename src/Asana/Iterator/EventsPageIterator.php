@@ -2,7 +2,6 @@
 
 namespace Asana\Iterator;
 
-use Asana\Iterator\PageIterator;
 use Asana\Errors\InvalidTokenError;
 
 class EventsPageIterator extends PageIterator
@@ -29,7 +28,7 @@ class EventsPageIterator extends PageIterator
 
     protected function getContinuation($result)
     {
-        return isset($result->sync) ? $result->sync : null;
+        return $result->sync ?? null;
     }
 
     public function next()

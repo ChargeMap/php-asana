@@ -3,6 +3,7 @@
 namespace Asana\Resources;
 
 use Asana\Resources\Gen\ProjectsBase;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class Projects extends ProjectsBase
 {

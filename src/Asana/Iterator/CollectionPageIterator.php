@@ -2,11 +2,10 @@
 
 namespace Asana\Iterator;
 
-use Asana\Iterator\PageIterator;
-
 class CollectionPageIterator extends PageIterator
 {
     public $sync = null;
+    private $options;
 
     protected function getInitial()
     {
@@ -25,6 +24,6 @@ class CollectionPageIterator extends PageIterator
             $this->sync = $result->sync;
         }
 
-        return isset($result->next_page) ? $result->next_page : null;
+        return $result->next_page ?? null;
     }
 }
