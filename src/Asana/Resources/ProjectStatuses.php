@@ -7,7 +7,7 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectStatuses extends ProjectStatusesBase
 {
-    private $client;
+    public $client;
 
     public function create($project, $params = array(), $options = array())
     {

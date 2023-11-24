@@ -7,13 +7,13 @@ use ReturnTypeWillChange;
 
 abstract class PageIterator implements Iterator
 {
-    private $currentPageNumber;
-    private $currentPage;
+    public $currentPageNumber;
+    public $currentPage;
     public $continuation;
-    private $count;
-    private $pageSize;
-    private $itemLimit;
-    private $options;
+    public $count;
+    public $pageSize;
+    public $itemLimit;
+    public $options;
     protected $query;
     protected $path;
     protected $client;

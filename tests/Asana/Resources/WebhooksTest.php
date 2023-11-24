@@ -6,7 +6,7 @@ use Asana\Test\AsanaTest;
 
 class WebhooksTest extends Test\AsanaTest
 {
-    private $data = array(
+    public $data = array(
       'id' => 222,
       'resource' => array(
         'id' => 111,

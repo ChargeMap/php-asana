@@ -7,7 +7,7 @@ use Httpful\Request;
 
 class MockRequest extends Request
 {
-    private $dispatcher;
+    public $dispatcher;
 
     public function __construct($dispatcher)
     {

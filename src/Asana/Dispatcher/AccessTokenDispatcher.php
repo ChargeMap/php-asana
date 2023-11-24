@@ -6,7 +6,7 @@ use Exception;
 
 class AccessTokenDispatcher extends Dispatcher
 {
-    private $accessToken;
+    public $accessToken;
 
     public function __construct($accessToken)
     {

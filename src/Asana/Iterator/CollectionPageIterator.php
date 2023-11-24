@@ -5,7 +5,7 @@ namespace Asana\Iterator;
 class CollectionPageIterator extends PageIterator
 {
     public $sync = null;
-    private $options;
+    public $options;
 
     protected function getInitial()
     {

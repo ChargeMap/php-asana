@@ -13,9 +13,9 @@ use Httpful\Handlers\MimeHandlerAdapter;
 
 class JsonHandler extends MimeHandlerAdapter
 {
-    private $decode_as_array = false;
-    private $depth = 512;
-    private $parse_options = 0;
+    public $decode_as_array = false;
+    public $depth = 512;
+    public $parse_options = 0;
 
     public function init(array $args)
     {

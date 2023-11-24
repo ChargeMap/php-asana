@@ -6,8 +6,8 @@ use Exception;
 
 class AsanaError extends Exception
 {
-    private $response;
-    private $status;
+    public $response;
+    public $status;
 
     public function __construct($message, $status, $response)
     {

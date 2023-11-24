@@ -7,7 +7,7 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectMemberships extends ProjectMembershipsBase
 {
-    private $client;
+    public $client;
 
     /**
      * @param Asana/Client client  The client instance

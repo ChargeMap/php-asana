@@ -3,7 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class ProjectBriefsBase {
-    private $client;
+    public $client;
 
     /**
      * @param Asana/Client client  The client instance

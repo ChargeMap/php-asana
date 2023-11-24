@@ -7,8 +7,8 @@ use Httpful\Response;
 
 class MockDispatcher extends Dispatcher
 {
-    private $calls;
-    private $responses;
+    public $calls;
+    public $responses;
 
     public function __construct()
     {

@@ -8,10 +8,10 @@ use ReturnTypeWillChange;
 
 class ItemIterator implements Iterator
 {
-    private $item;
-    private $items;
-    private $itemIndex;
-    private $pages;
+    public $item;
+    public $items;
+    public $itemIndex;
+    public $pages;
 
     public function __construct($pages)
     {

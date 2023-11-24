@@ -12,15 +12,15 @@ class OAuthDispatcher extends Dispatcher
     public static $AUTHORIZATION_ENDPOINT = 'https://app.asana.com/-/oauth_authorize';
     public static $TOKEN_ENDPOINT = 'https://app.asana.com/-/oauth_token';
 
-    private $expirationTimeSeconds = null;
-    private $expiresIn;
-    private $oauthClient;
-    private $refreshToken;
-    private $redirectUri;
-    private $authorized;
-    private $accessToken;
-    private $clientSecret;
-    private $clientId;
+    public $expirationTimeSeconds = null;
+    public $expiresIn;
+    public $oauthClient;
+    public $refreshToken;
+    public $redirectUri;
+    public $authorized;
+    public $accessToken;
+    public $clientSecret;
+    public $clientId;
 
     public function __construct($options)
     {

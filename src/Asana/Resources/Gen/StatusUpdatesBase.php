@@ -3,7 +3,7 @@
 namespace Asana\Resources\Gen;
 
 class StatusUpdatesBase {
-    private $client;
+    public $client;
 
     /**
      * @param Asana/Client client  The client instance
