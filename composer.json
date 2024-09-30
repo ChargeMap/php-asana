@@ -9,7 +9,7 @@
         "php": ">=8.1",
         "ext-posix": "*",
         "ext-json": "*",
-        "nategood/httpful": "~0.2",
+        "nategood/httpful": "^1",
         "adoy/oauth2": "^1.2.0"
     },
     "require-dev": {
